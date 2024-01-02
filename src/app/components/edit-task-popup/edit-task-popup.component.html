@@ -1,0 +1,60 @@
+<div class="mt-5">
+  <h1 *ngIf="!isEdit" class="text-center">Add new task</h1>
+  <h1 *ngIf="isEdit" class="text-center">Edit your task</h1>
+  <div></div>
+  <form class="flex flex-col m-5">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        placeholder="Enter your name"
+        [(ngModel)]="formData.name"
+        name="name"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Start Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="startDatePicker"
+        placeholder="Choose a date"
+        [(ngModel)]="formData.startDate"
+        name="startDate"
+        required
+        [min]="minStartDate"
+        [max]="maxStartDate"
+        (dateChange)="onStartDateChange($event)"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="startDatePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>End Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="endDatePicker"
+        placeholder="Choose a date"
+        [(ngModel)]="formData.endDate"
+        name="endDate"
+        required
+        [min]="minEndDate"
+        [max]="maxEndDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="endDatePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="submitForm()">
+      Submit
+    </button>
+  </form>
+</div>

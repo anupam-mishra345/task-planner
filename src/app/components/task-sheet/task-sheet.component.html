@@ -1,0 +1,133 @@
+<div #tasksheet class="bird-eye-main-div flex">
+  <div class="cl1">
+    <div class="weeks-div flex" [style]="{ height: taskDivHeight }">
+      <div
+        class="week-div flex"
+        *ngFor="let week of newWeekData; let i = index"
+      >
+        <div
+          class="flex flex-col dates-div"
+          [ngClass]="i === newWeekData.length - 1 ? 'dates-div-last' : ''"
+        >
+          <div class="week-text flex flex-col">
+            <span>{{ week.weekNumber }} </span> <span>{{ week.name }}</span>
+          </div>
+          <div class="flex h-full">
+            <div
+              #dateDiv
+              class="date-div flex"
+              *ngFor="let date of week.dates"
+              [ngClass]="isToday(date) ? 'today' : ''"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tasks-parent-div relative w-full">
+      <div
+        [style]="{ top: '-' + taskDivHeight }"
+        class="tasks-div flex flex-col"
+        #tasksDiv
+      >
+        <div class="bg-white-div"></div>
+        <div class="abc flex mt-4" *ngFor="let task of newTaskData; index as i">
+          <div
+            #task
+            class="task-div flex p-2 justify-between cursor-pointer"
+            [ngClass]="currentTaskSelected === i ? 'selected-task' : ''"
+            [style]="task.style"
+            (click)="currentTaskSelected = i"
+            (mouseenter)="hoverHandler(task.id)"
+            (mouseleave)="hoverHandler('')"
+          >
+            <div>{{ task.name }}</div>
+            <div (click)="openEditTaskDialog(task)">
+              <i class="fa-solid fa-pen cursor-pointer"></i>
+            </div>
+          </div>
+          <div *ngIf="task.id === hoverId" class="hover-class ml-2">
+            <div>
+              {{ task.name }}
+            </div>
+            <div class="flex">
+              <span class="mr-2">{{ task.startDate }}</span> -
+              <span class="ml-2">{{ task.endDate }}</span>
+            </div>
+          </div>
+          <div *ngIf="task.hasMock" class="mockdata-div ml-2">
+            <div class="mockdata-name">
+              {{ task.mockData?.name }}
+            </div>
+            <div class="mockdata-marks"></div>
+          </div>
+        </div>
+
+        <!-- <div class="footer-task-div flex mt-5">
+            <div *ngFor="let footer of footerTask">
+              <div
+                *ngIf="footer.isAddResources"
+                class="add-resources-name ml-2"
+                [style]="getFooterStyles()"
+              >
+                <div>{{ footer.name }}</div>
+                <div>
+                  {{ footer.name2 }}
+                </div>
+              </div>
+              <div
+                *ngIf="footer.isStimulatedExam"
+                class="stimulated-exam-name ml-2"
+              >
+                <div>{{ footer.name }}</div>
+                <div>{{ footer.name2 }}</div>
+              </div>
+              <div *ngIf="footer.isRevision" class="revision-name ml-2">
+                {{ footer.name }}
+              </div>
+              <div
+                *ngIf="footer.isExamDay"
+                class="exam-date-div flex flex-col ml-2"
+              >
+                <div class="exam-date-name">{{ footer.name }}</div>
+                <div class="exam-date-date">{{ footer.date }}</div>
+              </div>
+            </div>
+          </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-5 flex justify-center">
+  <div class="btn" (click)="goToFirstTask()">
+    <i class="fa-solid fa-backward-step custom-icon mr-2"></i>
+    First Task
+  </div>
+  <div
+    class="btn ml-5"
+    (click)="goToPrevTask()"
+    [ngClass]="currentTaskSelected > 0 ? '' : 'disabled-div'"
+  >
+    <i class="fa-solid fa-circle-chevron-left fa-xl mr-2"></i>
+    Prev Task
+  </div>
+  <div class="btn create-btn mx-10" (click)="openAddTaskDialog()">
+    <i class="fa-solid fa-circle-plus fa-xl mr-2"></i>
+    Create New Task
+  </div>
+  <div
+    class="btn"
+    [ngClass]="
+      currentTaskSelected >= 0 && currentTaskSelected < newTaskData.length - 1
+        ? ''
+        : 'disabled-div'
+    "
+    (click)="goToNextTask()"
+  >
+    <i class="fa-solid fa-circle-chevron-right fa-xl mr-2"></i>
+    Next Task
+  </div>
+  <div class="btn bg-blue-500 ml-5" (click)="goToLastTask()">
+    <i class="fa-solid fa-forward-step custom-icon mr-2"></i>
+    Last Task
+  </div>
+</div>
