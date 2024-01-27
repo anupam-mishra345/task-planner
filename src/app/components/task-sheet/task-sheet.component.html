@@ -1,18 +1,20 @@
-<div class="flex">
-  <img src="./assets/task-planner2.png" alt="" class="-mt-1" />
-  <div
-    class="flex search-div border border-grey-600 rounded-md mb-4 w-fit text-base ml-3 mr-5"
-  >
-    <input
-      class="h-10 w-[300px] p-2 border-0 rounded-md"
-      type="text"
-      placeholder="Search task"
-      [(ngModel)]="searchText"
-      (input)="searchTaskHandler()"
-    />
-    <i class="fa-solid fa-magnifying-glass mr-2 self-center"></i>
+<div class="btns-main-div flex">
+  <div class="search-main-div flex">
+    <img src="./assets/task-planner2.png" alt="" class="-mt-1" />
+    <div
+      class="flex search-div border border-grey-600 rounded-md mb-4 text-base ml-3"
+    >
+      <input
+        class="h-10 p-2 border-0 rounded-md"
+        type="text"
+        placeholder="Search task"
+        [(ngModel)]="searchText"
+        (input)="searchTaskHandler()"
+      />
+      <i class="fa-solid fa-magnifying-glass mr-2 self-center"></i>
+    </div>
   </div>
-  <div class="flex h-10">
+  <div class="btns flex h-10">
     <div class="btn bg-blue-500 mr-5" (click)="showDays()">
       <i class="fa-solid fa-table-cells-large custom-icon mr-2"></i>
       {{ isShowDay ? "Hide days" : "Show days" }}
@@ -45,7 +47,7 @@
       <i class="fa-solid fa-circle-chevron-right fa-xl mr-2"></i>
       Next Task
     </div>
-    <div class="btn bg-blue-500 mr-5" (click)="goToLastTask()">
+    <div class="btn bg-blue-500" (click)="goToLastTask()">
       <i class="fa-solid fa-forward-step custom-icon mr-2"></i>
       Last Task
     </div>

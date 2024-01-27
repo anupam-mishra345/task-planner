@@ -194,7 +194,8 @@
 }
 
 .btn {
-  width: max-content;
+  min-width: max-content;
+  height: 40px;
   padding: 8px 15px;
   background-color: rgba(44, 79, 204);
   color: white;
@@ -234,6 +235,9 @@
   font-size: 18px;
 }
 
+.search-div input {
+  width: 300px;
+}
 .search-div input:focus {
   outline: none;
 }
@@ -244,10 +248,29 @@ img {
   height: 50px;
   width: 50px;
 }
-
-@media screen and (max-width: 500px) {
-  .bird-eye-main-div {
+@media screen and (max-width: 768px) {
+  .btns-main-div {
+    flex-direction: column;
+  }
+  .btns {
+    overflow-x: auto;
     width: 100%;
+    margin-bottom: 20px;
+    height: 50px;
+  }
+  .search-div,
+  .search-div input {
+    width: 100%;
+  }
+  .bird-eye-main-div {
     border: 0;
+  }
+}
+@media screen and (min-width: 769px) {
+  .btns {
+    overflow-x: auto;
+    width: calc(100% - 350px);
+    margin-left: 50px;
+    height: 50px;
   }
 }
