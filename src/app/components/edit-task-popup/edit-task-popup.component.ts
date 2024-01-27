@@ -78,6 +78,18 @@ export class EditTaskPopupComponent {
     }
     this.dialogRef.close(result);
   }
+
+  deleteTask() {
+    let result: any = {
+      action: 'delete',
+      deleteId: this.taskData.id,
+    };
+    this.dialogRef.close(result);
+  }
+  cancel() {
+    this.dialogRef.close();
+  }
+
   onStartDateChange(event: any) {
     this.minEndDate = new Date(event.value);
   }

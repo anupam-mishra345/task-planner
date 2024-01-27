@@ -21,6 +21,9 @@ export class TaskSheetComponent {
   taskDivHeight: string = '500px';
   currentTaskSelected: number = -1;
   hoverId: string = '';
+  isShowDay: boolean = false;
+  searchText: string = '';
+  dateHover: string = '';
 
   @ViewChild('dateDiv') dateDiv!: ElementRef;
   @ViewChild('tasksDiv') tasksDiv!: ElementRef;
@@ -47,6 +50,7 @@ export class TaskSheetComponent {
       };
       this.newWeekData.push(temp);
     });
+    console.log(this.newWeekData);
   }
 
   ngOnInit() {
@@ -114,14 +118,14 @@ export class TaskSheetComponent {
 
   getTaskWidth(startDate: string, endDate: string) {
     let dates = this.getDatesBetween(startDate, endDate);
-    return dates.length * this.oneDayWidth;
+    return dates.length * this.oneDayWidth + 2;
   }
 
   getMarginLeft(taskStartDate: string) {
     const spStartDate = this.convertStringToDate(this.spStartDate);
     const endDate = this.convertStringToDate(taskStartDate);
     const daysDifference = this.getDateDifferenceInDays(spStartDate, endDate);
-    return daysDifference * this.oneDayWidth + 2;
+    return daysDifference * this.oneDayWidth + 20;
   }
 
   getDateDifferenceInDays(date1: Date, date2: Date): number {
@@ -251,6 +255,10 @@ export class TaskSheetComponent {
     this.goToTaskhandler();
   }
 
+  showDays() {
+    this.isShowDay = !this.isShowDay;
+  }
+
   goToTaskhandler() {
     let margin: string =
       this.newTaskData[this.currentTaskSelected].style['margin-left'];
@@ -288,7 +296,9 @@ export class TaskSheetComponent {
       },
     });
     dialogRef.afterClosed().subscribe((data: any) => {
-      if (data) {
+      if (data?.action === 'delete') {
+        this.deleteTask(data.deleteId);
+      } else if (data.id) {
         this.newTaskData.map((elem: any) => {
           if (elem.id === data.id) {
             elem.startDate = data.startDate;
@@ -313,7 +323,7 @@ export class TaskSheetComponent {
       },
     });
     dialogRef.afterClosed().subscribe((data: any) => {
-      if (data) {
+      if (data.id) {
         let temp = {
           ...data,
           style: this.getStyles(data.startDate, data.endDate),
@@ -331,4 +341,19 @@ export class TaskSheetComponent {
   hoverHandler(value: string) {
     this.hoverId = value;
   }
+
+  deleteTask(id: string) {
+    this.newTaskData = this.newTaskData.filter((elem: any) => elem.id !== id);
+  }
+
+  searchTaskHandler() {
+    this.currentTaskSelected = this.newTaskData.findIndex((elem: any) =>
+      elem.name.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+    if (this.currentTaskSelected > -1) this.goToTaskhandler();
+  }
+
+  // setDateHover(date: string) {
+  //   this.dateHover = date;
+  // }
 }

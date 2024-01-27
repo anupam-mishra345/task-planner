@@ -53,8 +53,26 @@
       <mat-datepicker #endDatePicker></mat-datepicker>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="submitForm()">
+    <button
+      mat-raised-button
+      color="primary"
+      class="font-bold"
+      (click)="submitForm()"
+    >
       Submit
+    </button>
+    <button
+      *ngIf="isEdit"
+      class="border border-red-600 mt-3 h-9 rounded shadow-sm shadow-black text-red-600 font-bold"
+      (click)="deleteTask()"
+    >
+      Delete Task
+    </button>
+    <button
+      class="border border-indigo-600 mt-3 h-9 rounded shadow-sm shadow-black font-bold"
+      (click)="cancel()"
+    >
+      Cancel
     </button>
   </form>
 </div>
