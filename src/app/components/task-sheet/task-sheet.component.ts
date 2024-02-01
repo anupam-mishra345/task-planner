@@ -31,28 +31,6 @@ export class TaskSheetComponent {
 
   constructor(private datePipe: DatePipe, private dialog: MatDialog) {}
 
-  calculateTaskData() {
-    this.newTaskData = [];
-    this.taskData.forEach((task: any) => {
-      let temp = {
-        ...task,
-        style: this.getStyles(task.startDate, task.endDate),
-      };
-      this.newTaskData.push(temp);
-    });
-  }
-  calculateWeekData() {
-    this.newWeekData = [];
-    this.weekData.forEach((week: any) => {
-      let temp = {
-        ...week,
-        dates: this.getDatesBetween(week.startDate, week.endDate),
-      };
-      this.newWeekData.push(temp);
-    });
-    console.log(this.newWeekData);
-  }
-
   ngOnInit() {
     // Example usage for 1 year before and 1 year after
     const yearlyWeeks = this.getYearlyWeekList();
@@ -64,32 +42,38 @@ export class TaskSheetComponent {
   }
   ngAfterViewInit() {
     this.handleResize();
-    // Use the ElementRef and Renderer2 to get the width of the div
-    // const divWidth = this.dateDiv.nativeElement.offsetWidth;
-    // this.oneDayWidth = divWidth;
-    // this.handleResize();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    // Call your function here
     this.handleResize();
   }
 
   handleResize() {
-    // Your logic to handle screen width changes
-    const screenWidth = window.innerWidth;
-    // Call any other functions or update properties as needed
-    // const divWidth = this.dateDiv.nativeElement.offsetWidth;
-    // this.oneDayWidth = divWidth;
-    // this.calculateWeekData();
-    // this.calculateTaskData();
     const divHeight = this.tasksDiv.nativeElement.offsetHeight;
-
-    // const divElement: HTMLElement =
-    //   this.tasksDiv.nativeElement.querySelector('#tasksDiv');
-    // const divHeight2 = divElement.offsetHeight;
     this.taskDivHeight = divHeight + 100 + 'px';
+  }
+
+  calculateTaskData() {
+    this.newTaskData = [];
+    this.taskData.forEach((task: any) => {
+      let temp = {
+        ...task,
+        style: this.getStyles(task.startDate, task.endDate),
+      };
+      this.newTaskData.push(temp);
+    });
+  }
+
+  calculateWeekData() {
+    this.newWeekData = [];
+    this.weekData.forEach((week: any) => {
+      let temp = {
+        ...week,
+        dates: this.getDatesBetween(week.startDate, week.endDate),
+      };
+      this.newWeekData.push(temp);
+    });
   }
 
   convertStringToDate(date: string): Date {
@@ -155,8 +139,6 @@ export class TaskSheetComponent {
     };
   }
 
-  // extra codes
-
   getWeekList() {
     const today = new Date();
     const currentWeekday = today.getDay(); // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
@@ -211,8 +193,6 @@ export class TaskSheetComponent {
       const year = startOfWeek.getFullYear();
 
       yearlyWeekList.push({
-        // year: year,
-        // weekNumber: weekNumber,
         weekNumber: `W-${weekNumber}`,
         name: `${this.datePipe.transform(
           startOfWeek,
@@ -226,7 +206,6 @@ export class TaskSheetComponent {
     return yearlyWeekList;
   }
 
-  // Helper function to get ISO week number
   getISOWeekNumber(date: any) {
     const newDate: any = new Date(date);
     newDate.setDate(newDate.getDate() + 4 - (newDate.getDay() || 7));
@@ -298,7 +277,7 @@ export class TaskSheetComponent {
     dialogRef.afterClosed().subscribe((data: any) => {
       if (data?.action === 'delete') {
         this.deleteTask(data.deleteId);
-      } else if (data.id) {
+      } else if (data?.id) {
         this.newTaskData.map((elem: any) => {
           if (elem.id === data.id) {
             elem.startDate = data.startDate;
@@ -323,7 +302,7 @@ export class TaskSheetComponent {
       },
     });
     dialogRef.afterClosed().subscribe((data: any) => {
-      if (data.id) {
+      if (data?.id) {
         let temp = {
           ...data,
           style: this.getStyles(data.startDate, data.endDate),
@@ -344,6 +323,7 @@ export class TaskSheetComponent {
 
   deleteTask(id: string) {
     this.newTaskData = this.newTaskData.filter((elem: any) => elem.id !== id);
+    this.handleResize();
   }
 
   searchTaskHandler() {
@@ -352,8 +332,4 @@ export class TaskSheetComponent {
     );
     if (this.currentTaskSelected > -1) this.goToTaskhandler();
   }
-
-  // setDateHover(date: string) {
-  //   this.dateHover = date;
-  // }
 }

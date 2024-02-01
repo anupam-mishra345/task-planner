@@ -223,7 +223,9 @@
 }
 
 .disabled-div {
-  opacity: 0.5;
+  // opacity: 0.5;
+  background-color: rgb(151, 151, 146) !important;
+  background-image: none;
   pointer-events: none;
 }
 
