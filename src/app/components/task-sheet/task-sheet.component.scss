@@ -58,7 +58,7 @@
   height: 100%;
 }
 .day-line {
-  border: 0.2px solid rgb(246, 202, 9);
+  border: 0.2px solid rgb(247, 249, 197);
 }
 .today {
   background-color: rgb(250, 107, 107);
@@ -92,7 +92,7 @@
 }
 .task-div {
   border-radius: 7.6px;
-  background: rgba(38, 82, 24, 0.4);
+  background: rgba(69, 118, 233, 0.4);
   color: rgba(0, 0, 0);
   font-family: Helvetica, sans-serif;
   font-size: 14px;
@@ -102,7 +102,11 @@
   height: auto;
 }
 .selected-task {
-  background-color: rgba(38, 82, 24, 0.8);
+  background-image: linear-gradient(
+    90deg,
+    rgba(183, 72, 196, 0.8),
+    rgba(58, 89, 227, 0.8)
+  );
   color: white;
 }
 .mockdata-div {
@@ -197,7 +201,11 @@
   min-width: max-content;
   height: 40px;
   padding: 8px 15px;
-  background-color: rgba(44, 79, 204);
+  background-image: linear-gradient(
+    90deg,
+    rgba(183, 72, 196, 0.8),
+    rgba(58, 89, 227, 0.8)
+  );
   color: white;
   border: 1px solid black;
   border-radius: 5px;
@@ -206,7 +214,12 @@
 }
 
 .create-btn {
-  background-color: rgb(22, 88, 25);
+  // background-color: rgba(183, 72, 196, 0.8);
+  background-image: linear-gradient(
+    90deg,
+    rgba(183, 72, 196, 0.8),
+    rgba(58, 89, 227, 0.8)
+  );
 }
 
 .disabled-div {
@@ -269,8 +282,38 @@ img {
 @media screen and (min-width: 769px) {
   .btns {
     overflow-x: auto;
+    overflow-y: hidden;
+    // scrollbar-width: none;
     width: calc(100% - 350px);
     margin-left: 50px;
     height: 50px;
   }
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Change color as needed */
+}
+
+/* For Firefox */
+/* Note: Firefox supports a separate pseudo-element, scrollbar-thumb, for the scrollbar thumb style */
+/* This example sets both scrollbar and thumb to a width of 10px */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+/* For Internet Explorer */
+*::-ms-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-ms-scrollbar-thumb {
+  background-color: #888; /* Change color as needed */
 }
