@@ -58,7 +58,7 @@
   height: 100%;
 }
 .day-line {
-  border: 0.2px solid rgb(247, 249, 197);
+  border: 0.2px solid rgb(246, 220, 248);
 }
 .today {
   background-color: rgb(250, 107, 107);
@@ -112,7 +112,8 @@
 .mockdata-div {
   padding: 8px;
   border-radius: 7.6px;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       0deg,
       rgba(22, 43, 142, 0.1) 0%,
       rgba(22, 43, 142, 0.1) 100%
@@ -139,7 +140,8 @@
 }
 .add-resources-name {
   border-radius: 7.6px;
-  background: linear-gradient(
+  background:
+    linear-gradient(
       0deg,
       rgba(22, 43, 142, 0.2) 0%,
       rgba(22, 43, 142, 0.2) 100%

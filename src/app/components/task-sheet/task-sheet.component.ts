@@ -11,7 +11,8 @@ import { EditTaskPopupComponent } from '../edit-task-popup/edit-task-popup.compo
 })
 export class TaskSheetComponent {
   weekData = BirdEye.birdEyeWeek;
-  taskData = BirdEye.birdEyeTask;
+  // taskData = BirdEye.birdEyeTask;
+  taskData = [];
   newTaskData: any = [];
   newWeekData: any = [];
   footerTask = BirdEye.birdEyeFooter;
@@ -21,7 +22,7 @@ export class TaskSheetComponent {
   taskDivHeight: string = '500px';
   currentTaskSelected: number = -1;
   hoverId: string = '';
-  isShowDay: boolean = false;
+  isShowDay: boolean = true;
   searchText: string = '';
   dateHover: string = '';
 
@@ -29,10 +30,14 @@ export class TaskSheetComponent {
   @ViewChild('tasksDiv') tasksDiv!: ElementRef;
   @ViewChild('tasksheet', { read: ElementRef }) tasksheet!: ElementRef<any>;
 
-  constructor(private datePipe: DatePipe, private dialog: MatDialog) {}
+  constructor(
+    private datePipe: DatePipe,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     // Example usage for 1 year before and 1 year after
+    this.creataTaskData();
     const yearlyWeeks = this.getYearlyWeekList();
     this.weekData = yearlyWeeks;
     this.spStartDate = yearlyWeeks[0].startDate;
@@ -124,20 +129,20 @@ export class TaskSheetComponent {
     };
   }
 
-  getFooterMargin() {
-    const spStartDate = this.convertStringToDate(this.spStartDate);
-    const endDate = this.convertStringToDate(
-      this.taskData[this.taskData.length - 1].endDate
-    );
-    const daysDifference = this.getDateDifferenceInDays(spStartDate, endDate);
-    return daysDifference * this.oneDayWidth + 2;
-  }
+  // getFooterMargin() {
+  //   const spStartDate = this.convertStringToDate(this.spStartDate);
+  //   const endDate = this.convertStringToDate(
+  //     this.taskData[this.taskData.length - 1].endDate,
+  //   );
+  //   const daysDifference = this.getDateDifferenceInDays(spStartDate, endDate);
+  //   return daysDifference * this.oneDayWidth + 2;
+  // }
 
-  getFooterStyles() {
-    return {
-      'margin-left': this.getFooterMargin() + 'px',
-    };
-  }
+  // getFooterStyles() {
+  //   return {
+  //     'margin-left': this.getFooterMargin() + 'px',
+  //   };
+  // }
 
   getWeekList() {
     const today = new Date();
@@ -196,7 +201,7 @@ export class TaskSheetComponent {
         weekNumber: `W-${weekNumber}`,
         name: `${this.datePipe.transform(
           startOfWeek,
-          'd MMM y'
+          'd MMM y',
         )} - ${this.datePipe.transform(endOfWeek, 'd MMM y')}`,
         startDate: startOfWeek.toString(),
         endDate: endOfWeek.toString(),
@@ -328,8 +333,37 @@ export class TaskSheetComponent {
 
   searchTaskHandler() {
     this.currentTaskSelected = this.newTaskData.findIndex((elem: any) =>
-      elem.name.toLowerCase().includes(this.searchText.toLowerCase())
+      elem.name.toLowerCase().includes(this.searchText.toLowerCase()),
     );
     if (this.currentTaskSelected > -1) this.goToTaskhandler();
+  }
+
+  creataTaskData() {
+    let tempTaskData = BirdEye.birdEyeTask;
+    let newTempTaskData: any = tempTaskData.map((elem) => {
+      elem.startDate = this.getDateFromLastYearPlusDays(elem.startAfter);
+      elem.endDate = this.getDateFromLastYearPlusDays(
+        elem.startAfter + elem.duration,
+      );
+      return elem;
+    });
+    this.taskData = newTempTaskData;
+  }
+
+  getDateFromLastYearPlusDays(daysToAdd: number): string {
+    const today = new Date();
+
+    // Go 1 year back
+    const resultDate = new Date(today);
+    resultDate.setFullYear(today.getFullYear() - 1);
+
+    // Add given number of days
+    resultDate.setDate(resultDate.getDate() + daysToAdd);
+
+    const month = resultDate.getMonth() + 1; // 1–12
+    const day = resultDate.getDate();
+    const year = resultDate.getFullYear().toString().slice(-2); // last 2 digits
+
+    return `${month}/${day}/${year}`;
   }
 }
