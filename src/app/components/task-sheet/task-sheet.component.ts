@@ -198,11 +198,11 @@ export class TaskSheetComponent {
       const year = startOfWeek.getFullYear();
 
       yearlyWeekList.push({
-        weekNumber: `W-${weekNumber}`,
+        weekNumber: `Week - ${weekNumber}`,
         name: `${this.datePipe.transform(
           startOfWeek,
-          'd MMM y',
-        )} - ${this.datePipe.transform(endOfWeek, 'd MMM y')}`,
+          'dd MMM y',
+        )} - ${this.datePipe.transform(endOfWeek, 'dd MMM y')}`,
         startDate: startOfWeek.toString(),
         endDate: endOfWeek.toString(),
       });
